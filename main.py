@@ -81,54 +81,19 @@ start = time.process_time()
 print(f"\nSolução do problema de minimização do custo")
 
 # Selecionando o solver
-solver = 'appsi_highs'
-# solver = 'glpk'
+# solver = 'appsi_highs'
+solver = 'glpk'
 
 SOLVER = pyo.SolverFactory(solver)
 assert SOLVER.available(), f"Solver {solver} não instalado."
 
 network = {"nodes": filiais, "edges": trajetos}
 
-# network = {
-#     "nodes": {
-#         0: {"b":1},
-#         1: {"b":1},
-#         2: {"b":1},
-#         3: {"b":1},
-#         4: {"b":1},
-#         5: {"b":1},
-#         6: {"b":1},
-#         7: {"b":1},
-#         8: {"b":1},
-#         9: {"b":1},
-#         10: {"b":1},
-#     },
-#     "edges": {
-#         (0, 1)  : {"u": 15, "c": 1  },
-#         (1, 2)  : {"u": 14, "c": 1  },
-#         (2, 9)  : {"u": 10, "c": 1  },
-#         (2, 3)  : {"u": 15, "c": 1  },
-#         (3, 4)  : {"u": 15, "c": 1  },
-#         (3, 5)  : {"u": 10, "c": 2  },
-#         (3, 4)  : {"u": 10, "c": 3  },
-#         (4, 7)  : {"u": 4,  "c": 1  },
-#         (4, 8)  : {"u": 5,  "c": 4  },
-#         (5, 8)  : {"u": 5,  "c": 3  },
-#         (5, 9)  : {"u": 6,  "c": 2  },
-#         (5, 10) : {"u": 5,  "c": 1  },
-#         (8, 6)  : {"u": 8,  "c": 3  },
-#         (6, 10) : {"u": 1,  "c": 3  },
-#         (7, 8)  : {"u": 4,  "c": 2  },
-#         (7, 10) : {"u": 2,  "c": 2  },
-#         (8, 10) : {"u": 5,  "c": 3  },
-#         (9, 10) : {"u": 3,  "c": 1  },
-#     },
-# }
-v = 0
-for (o, d) in network["edges"]:
-    network["edges"][(o, d)]["u"] = veiculos[v]["capacidade_maxima_kg"]
-    network["edges"][(o, d)]["c"] = matriz_custos[v][o][d]
-    network["nodes"][o]["b"] = fluxo[v][o][d]
+# v = 3
+# for (o, d) in network["edges"]:
+#     network["edges"][(o, d)]["u"] = veiculos[v]["capacidade_maxima_kg"]
+#     network["edges"][(o, d)]["c"] = matriz_custos[v][o][d]
+#     network["nodes"][o]["b"] = fluxo[v][o][d]
 
 #for i in range(len(matriz_custos)):
 #    for j in range(len(matriz_custos[i])):    
@@ -137,7 +102,7 @@ for (o, d) in network["edges"]:
 #            # network["edges"][(j,k)]["u"] = matriz_custos[i][j][k]
 
 
-pprint(network)
+# pprint(network)
 
 model = mincostflow(network)
 SOLVER.solve(model)

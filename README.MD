@@ -1,5 +1,9 @@
     
 ### Bibliotecas
+
+####
+    $ python3 -m pip install requests
+
 #### Python
     $ pip install numpy
     $ pip install pandas

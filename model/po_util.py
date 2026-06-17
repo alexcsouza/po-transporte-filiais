@@ -22,6 +22,7 @@ def load_filiais_csv(file_path):
     obj = {}
     for i in range(len(data)):
         d = data[i][0].split(";")
+        pprint(d)
         row = {"b": int(d[2]), "nome": d[1], "demanda_kg": float(d[2]), "custo_maximo": float(d[3])}
         obj[int(d[0])] = row
 
@@ -94,7 +95,8 @@ def criar_matriz_custos(filiais, trajetos, veiculos):
         edges = []
         for nos, trajeto in trajetos.items():
             demanda_minima = filiais[nos[1]]["demanda_kg"]
-            custo_trajeto_veiculo = (-1) * 2 * trajeto["c"] * veiculo["custo_km"]  / demanda_minima
+            # custo_trajeto_veiculo = (-1) * 2 * trajeto["c"] * veiculo["custo_km"]  / demanda_minima
+            custo_trajeto_veiculo = trajeto["c"]
             peso_maximo = veiculo["capacidade_maxima_kg"]
             #demanda_minima = filiais[nos[1]]["demanda_kg"]
             custo_maximo = filiais[nos[1]]["custo_maximo"]
