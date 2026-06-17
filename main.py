@@ -106,6 +106,9 @@ network = {"nodes": filiais, "edges": trajetos}
 
 model = mincostflow(network)
 SOLVER.solve(model)
+# for e in network["edges"]:
+#     pprint(model.x[e].)
+
 flows = {e: round(model.x[e].value) for e in network["edges"]}
 print(f"\nOptimal solution:")
 
