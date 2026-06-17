@@ -18,7 +18,7 @@ def bellman_ford(graph, qtd_vertices, origem):
             
             if dist[u] + custo < dist[v]: # and flux[u] + dem < flux[v] :
                 dist[v] = dist[u] + custo
-                flux[v] = flux[u] + peso
+                flux[v] = flux[u] + dem
                 caminho[(u,v)] = custo
                 
     # Checkagem de ciclo

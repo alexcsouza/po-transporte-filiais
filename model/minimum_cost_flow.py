@@ -1,5 +1,6 @@
 import pyomo.environ as pyo
 #import matplotlib.pyplot as plt
+from pprint import pprint
 from networkx import (
     DiGraph,
     layout,
@@ -22,7 +23,7 @@ def draw_network(network, ax=None, edge_flows=None):
             pos=pos,
             edgelist=F.keys(),
             width=10,
-            edge_color="lightblue",
+            edge_color="red",
             style="solid",
             alpha=None,
             arrowstyle="-",
@@ -70,6 +71,16 @@ def mincostflow(network):
 
     @model.Objective(sense=pyo.minimize)
     def objective(m):
+#        pprint(network["edges"])
+#        print( "sfa;flk")
+#        
+#        #exit(0)
+#        sum = 0
+#        for e, data in network["edges"].items():
+#            pprint(data)
+#            sum = sum + data["c"] * m.x[e]
+#        print(sum)
+
         return sum(data["c"] * m.x[e] for e, data in network["edges"].items())
 
     @model.Expression(network["nodes"])

@@ -22,8 +22,8 @@ def load_filiais_csv(file_path):
     obj = {}
     for i in range(len(data)):
         d = data[i][0].split(";")
-        # pprint(d)
-        row = {"b": int(d[2]), "nome": d[1], "demanda_kg": float(d[2]), "custo_maximo": float(d[3])}
+        row = {"b": int(d[2]), "nome": d[1], "demanda_kg": int(d[2]), "custo_maximo": int(d[3])}
+        pprint(row)
         obj[int(d[0])] = row
 
     return obj
@@ -35,7 +35,7 @@ def load_veiculos_csv(file_path):
     obj = {}
     for i in range(len(data)):
         d = data[i][0].split(";")
-        row = {c[1].strip(): d[1].strip(), "custo_km": float(d[2]), "capacidade_maxima_kg": float(d[3])}
+        row = {c[1].strip(): d[1].strip(), "custo_km": int(d[2]), "capacidade_maxima_kg": int(d[3])}
         obj[int(d[0])] = row
 
     return obj
@@ -48,8 +48,8 @@ def load_trajetos_csv(file_path):
     obj = {}
     for i in range(len(data)):
         d = data[i][0].split(";")
-        # row = {"c": float(d[2]), "u": 0.0}
-        row = {"c": float(d[2]), "u": 506}
+        # row = {"c": int(d[2]), "u": 0.0}
+        row = {"c": int(d[2]), "u": 506}
         obj[(int(d[0]), int(d[1]))] = row
     
     return obj
@@ -74,8 +74,8 @@ def load_matriz_custos_csv(file_path, qtd_veiculos, qtd_filiais):
     # exit(0)
     for r in data:        
         # pprint(r)
-        m[int(r["veiculo"])][int(r["origem"])][int(r["destino"])] = float(r["custo"]) 
-        f[int(r["veiculo"])][int(r["origem"])][int(r["destino"])] = float(r["fluxo"]) 
+        m[int(r["veiculo"])][int(r["origem"])][int(r["destino"])] = int(r["custo"]) 
+        f[int(r["veiculo"])][int(r["origem"])][int(r["destino"])] = int(r["fluxo"]) 
         p[int(r["veiculo"])][int(r["origem"])][int(r["destino"])] = eval(r["caminho"])
 
     return {"matriz_custos": m, "fluxo": f,"caminhos": p}
@@ -94,10 +94,11 @@ def criar_matriz_custos(filiais, trajetos, veiculos):
         # print(f"Veiculo: {veiculo["nome"]}:{veiculo["custo_km"]}")
         edges = []
         for nos, trajeto in trajetos.items():
-            demanda_minima = filiais[nos[1]]["demanda_kg"]
-            custo_trajeto_veiculo = ((-1) * 2 * trajeto["c"] * veiculo["custo_km"]  / demanda_minima) if demanda_minima != 0 else 0
-            # custo_trajeto_veiculo = trajeto["c"]
-            peso_maximo = veiculo["capacidade_maxima_kg"]
+            demanda_minima = filiais[nos[0]]["demanda_kg"]
+            print(filiais[nos[0]])
+            # custo_trajeto_veiculo = ((-1) * 2 * trajeto["c"] * veiculo["custo_km"]  / demanda_minima) if demanda_minima != 0 else 0
+            custo_trajeto_veiculo = trajeto["c"]
+            peso_maximo = veiculo["capacidade_maxima_kg"]-demanda_minima
             #demanda_minima = filiais[nos[1]]["demanda_kg"]
             custo_maximo = filiais[nos[1]]["custo_maximo"]
             edges.append([nos[0],nos[1], custo_trajeto_veiculo, peso_maximo, demanda_minima, custo_maximo])
