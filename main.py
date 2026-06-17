@@ -76,11 +76,20 @@ matriz_custos = m["matriz_custos"]
 fluxo = m["fluxo"]
 caminhos = m["caminhos"]
 
+# for i in range(len(matriz_custos)):
+#     for j in range(len(matriz_custos[i])):    
+#         for k in range(len(matriz_custos[i][j])):
+#             print(matriz_custos[i][j][k])
+#             # network["edges"][(j,k)]["u"] = matriz_custos[i][j][k]
+
+
+
 # Solução do problema de minimização do custo
 start = time.process_time()
 print(f"\nSolução do problema de minimização do custo")
 
 # Selecionando o solver
+# solver = 'gurobi_direct'
 # solver = 'appsi_highs'
 solver = 'glpk'
 
@@ -118,15 +127,19 @@ for e in network["edges"]:
 
 print("\n".join(output))
 
-print(f"Objective value: {model.objective():.0f}")
+print(f"Valor da solução ótima: {model.objective():.0f}")
 fig, ax = plt.subplots(1, 1, figsize=(10, 10))
 draw_network(network, ax=ax, edge_flows=flows)
 
 file_path_grafo_custo_minimo = f'{img_base_path}/minimum-cost-graph.png'
 plt.savefig(file_path_grafo_custo_minimo)
-
 end = time.process_time()
-print(f"\nTempo total: {end - start} segundos")
+
+print(f"\nTempo do solver ({solver}): {end - start} segundos")
+
+
+end_total = time.process_time()
+print(f"\nTempo total: {end_total - start_total} segundos")
 print(f"\n--- FIM ----")
 
 

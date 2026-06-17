@@ -22,7 +22,7 @@ def load_filiais_csv(file_path):
     obj = {}
     for i in range(len(data)):
         d = data[i][0].split(";")
-        pprint(d)
+        # pprint(d)
         row = {"b": int(d[2]), "nome": d[1], "demanda_kg": float(d[2]), "custo_maximo": float(d[3])}
         obj[int(d[0])] = row
 
@@ -86,17 +86,17 @@ def criar_matriz_custos(filiais, trajetos, veiculos):
     f = [[[0 for _ in range(size)] for _ in range(size)] for _ in range(len(veiculos.keys()))]
     p = [[[0 for _ in range(size)] for _ in range(size)] for _ in range(len(veiculos.keys()))]
 
-    pprint(m)
-    pprint(f)
-    pprint(p)
+    # pprint(m)
+    # pprint(f)
+    # pprint(p)
 
     for i, veiculo in veiculos.items():
         # print(f"Veiculo: {veiculo["nome"]}:{veiculo["custo_km"]}")
         edges = []
         for nos, trajeto in trajetos.items():
             demanda_minima = filiais[nos[1]]["demanda_kg"]
-            # custo_trajeto_veiculo = (-1) * 2 * trajeto["c"] * veiculo["custo_km"]  / demanda_minima
-            custo_trajeto_veiculo = trajeto["c"]
+            custo_trajeto_veiculo = ((-1) * 2 * trajeto["c"] * veiculo["custo_km"]  / demanda_minima) if demanda_minima != 0 else 0
+            # custo_trajeto_veiculo = trajeto["c"]
             peso_maximo = veiculo["capacidade_maxima_kg"]
             #demanda_minima = filiais[nos[1]]["demanda_kg"]
             custo_maximo = filiais[nos[1]]["custo_maximo"]
@@ -112,7 +112,7 @@ def criar_matriz_custos(filiais, trajetos, veiculos):
             # source = f
             result = bellman_ford(edges, len(filiais), origem)
 
-            pprint(result)
+            # pprint(result)
 
             m[i][origem] = result["distancia"]
             f[i][origem] = result["fluxo"]
@@ -186,7 +186,7 @@ def criar_graficos_caminhos(veiculos, trajetos, matriz_custos, caminhos):
             # for nos, trajeto in trajetos.items():
                 #labels = []
                 # if matriz_custos[i][j][k] != float('inf') and matriz_custos[i][j][k] != 0:
-                pprint(caminhos[i][j])
+                # pprint(caminhos[i][j])
                 # exit(0)
                 g.add_edge(j, k, weight=caminhos[i][j][k][(j, k)])
 
